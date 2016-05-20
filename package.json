@@ -1,0 +1,43 @@
+{
+  "name": "email-react",
+  "version": "1.0.0",
+  "description": "react email app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mkdir": "mkdir -p build",
+    "serve": "http-server build",
+    "build": "npm run clean && npm run mkdir && npm run build:html && npm run build:css && npm run build:jsx",
+    "watch": "npm run watch:html & npm run watch:css & npm run watch:jsx",
+    "clean": "rm -rf build",
+    "build:html": "npm run clean:html && cp index.html build/",
+    "watch:html": "npm run build:html && chokidar index.html -c 'npm run build:html'",
+    "clean:html": "rm -f build/index.html",
+    "build:jsx": "npm run clean:jsx && webpack",
+    "watch:jsx": "npm run build:jsx && webpack --watch",
+    "clean:jsx": "rm -f build/$npm_package_name.$npm_package_version.jsx build/$npm_package_name.$npm_package_version.jsx.map"
+  },
+  "devDependencies": {
+    "babel-core": "^6.8.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "chai": "^3.5.0",
+    "chokidar-cli": "^1.2.0",
+    "clean-css": "^3.4.12",
+    "http-server": "^0.9.0",
+    "less": "^2.7.1",
+    "mocha": "^2.4.5",
+    "uglify-js": "^2.6.2",
+    "webpack": "^1.13.0"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": "kaeside & kyle",
+  "license": "ISC",
+  "dependencies": {
+    "react-router": "^2.4.1"
+  }
+}
