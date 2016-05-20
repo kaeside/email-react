@@ -5,6 +5,7 @@ var Router = router.Router;
 var Route = router.Route;
 var hashHistory = router.hashHistory;
 var IndexRoute = router.IndexRoute;
+var Link = router.Link;
 
 var CONTACTS = {
     0: {
@@ -28,7 +29,9 @@ var Contact = function(props) {
     return (
         <div>
             <strong>
-                {props.name}
+                <Link to={'/contacts/' + props.id}>
+                    {props.name}
+                </Link>
             </strong>
             &nbsp;
             {props.phoneNumber}
@@ -41,8 +44,7 @@ var ContactList = function(props) {
         var contact = props.contacts[contactId];
         return (
             <li key={index}>
-                <Contact id={contact.id} name={contact.name}
-                         phoneNumber={contact.phoneNumber} />
+                <Contact id={contact.id} name={contact.name} phoneNumber={contact.phoneNumber}/>
             </li>
         );
     });
@@ -53,17 +55,20 @@ var ContactList = function(props) {
     );
 };
 
-
 var ContactListContainer = function() {
-    return <ContactList contacts={CONTACTS} />;
+    return <ContactList contacts={CONTACTS}/>;
 };
 
 var App = function(props) {
     return (
         <div>
-            <h1>
-                Contacts App
-            </h1>
+            <div className='sidebar'>
+                <strong>
+                    <Link to={'/contacts/' + props.id}>
+                        {props.name}
+                    </Link>
+                </strong>
+            </div>
             <div>
                 {props.children}
             </div>
@@ -73,15 +78,14 @@ var App = function(props) {
 
 var ContactContainer = function(props) {
     var contact = CONTACTS[props.params.contactId];
-    return <Contact id={contact.id} name={contact.name}
-                    phoneNumber={contact.phoneNumber} />;
+    return <Contact id={contact.id} name={contact.name} phoneNumber={contact.phoneNumber}/>;
 };
 
 var routes = (
     <Router history={hashHistory}>
         <Route path="/contacts" component={App}>
-            <IndexRoute component={ContactListContainer} />
-            <Route path="/contacts/:contactId" component={ContactContainer} />
+            <IndexRoute component={ContactListContainer}/>
+            <Route path="/contacts/:contactId" component={ContactContainer}/>
         </Route>
     </Router>
 );
