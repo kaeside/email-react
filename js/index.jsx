@@ -64,17 +64,24 @@ var App = function(props) {
         <div>
             <div className='sidebar'>
                 <strong>
-                    <Link to={'/contacts/' + props.id}>
-                        {props.name}
+                    <Link to={'/contacts/0'}>
+                        Sarah
+                    </Link>
+                    <Link to={'/contacts/1'}>
+                        Tim
+                    </Link>
+                    <Link to={'/contacts/2'}>
+                        Sam
                     </Link>
                 </strong>
             </div>
-            <div>
+            <div className="content">
                 {props.children}
             </div>
         </div>
     );
 };
+
 
 var ContactContainer = function(props) {
     var contact = CONTACTS[props.params.contactId];
