@@ -25,38 +25,89 @@ var CONTACTS = {
     }
 };
 
-var Contact = function(props) {
+
+
+var EMAILS = {
+    inbox: {
+        0: {
+            id: 0,
+                from: "billg@microsoft.com",
+                to: "TeamWoz@Woz.org",
+                title: "Possible work opportunity",
+                content: "Dear Woz.  Fancy a job at Mister Softee?  Bill x"
+        },
+        1: {
+            id: 1,
+                from: "zuck@facebook.com",
+                to: "TeamWoz@Woz.org",
+                title: "Do you know PHP?",
+                content: "Dear Woz.  We are in need of a PHP expert.  Fast.  Zuck x"
+        }
+    },
+    spam: {
+        0: {
+            id: 0,
+                from: "ChEaPFl1ghTZ@hotmail.com",
+                to: "TeamWoz@Woz.org",
+                title: "WaNt CHEEp FlitZ",
+                content: "Theyre CheEp"
+        },
+        1: {
+            id: 1,
+                from: "NiKEAIRJordanZ@hotmail.com",
+                to: "TeamWoz@Woz.org",
+                title: "JorDanz For SAle",
+                content: "Theyre REELY CheEp"
+        }
+    }
+};
+
+
+var Email = function(props) {
     return (
         <div>
-            <strong>
-                <Link to={'/contacts/' + props.id}>
-                    {props.name}
-                </Link>
-            </strong>
-            &nbsp;
-            {props.phoneNumber}
+            <p>{props.id}</p>
+            <p>{props.from}</p>
+            <p>{props.to}</p>
+            <p>{props.title}</p>
+            <p>{props.content}</p>
         </div>
     );
 };
 
-var ContactList = function(props) {
-    var contacts = Object.keys(props.contacts).map(function(contactId, index) {
-        var contact = props.contacts[contactId];
+var EmailPreview = function(props) {
+    return (
+        <div>
+            <p>{props.email.from}</p>
+            <Link to={props.folder + '/' + props.email.id }>
+                <p>{props.email.title}</p>
+            </Link>
+        </div>
+    );
+};
+
+
+var EmailList = function(props) {
+    var emails = Object.keys(props.emails).map(function(emailId, index) {
+        var email = props.emails[emailId];
         return (
             <li key={index}>
-                <Contact id={contact.id} name={contact.name} phoneNumber={contact.phoneNumber}/>
+                <EmailPreview folder={props.folder} email={email}/>
             </li>
         );
     });
     return (
         <ul>
-            {contacts}
+            {emails}
         </ul>
     );
 };
 
-var ContactListContainer = function() {
-    return <ContactList contacts={CONTACTS}/>;
+var InboxListContainer = function() {
+    return <EmailList folder={'inbox'} emails={EMAILS.inbox}/>;
+};
+var SpamListContainer = function() {
+    return <EmailList folder={'spam'} emails={EMAILS.spam}/>;
 };
 
 var App = function(props) {
@@ -64,14 +115,11 @@ var App = function(props) {
         <div>
             <div className='sidebar'>
                 <strong>
-                    <Link to={'/contacts/0'}>
-                        Sarah
+                    <Link to={'/inbox'}>
+                        Inbox
                     </Link>
-                    <Link to={'/contacts/1'}>
-                        Tim
-                    </Link>
-                    <Link to={'/contacts/2'}>
-                        Sam
+                    <Link to={'/spam'}>
+                        Spam
                     </Link>
                 </strong>
             </div>
@@ -83,16 +131,23 @@ var App = function(props) {
 };
 
 
-var ContactContainer = function(props) {
-    var contact = CONTACTS[props.params.contactId];
-    return <Contact id={contact.id} name={contact.name} phoneNumber={contact.phoneNumber}/>;
+var InboxContainer = function(props) {
+    var folder = EMAILS.inbox[props.params.emailId];
+    return <Email id={folder.id} from={folder.from} to={folder.to} title={folder.title} content={folder.content} />;
+};
+
+var SpamContainer = function(props) {
+    var folder = EMAILS.spam[props.params.emailId];
+    return <Email id={folder.id} from={folder.from} to={folder.to} title={folder.title} content={folder.content} />;
 };
 
 var routes = (
     <Router history={hashHistory}>
-        <Route path="/contacts" component={App}>
-            <IndexRoute component={ContactListContainer}/>
-            <Route path="/contacts/:contactId" component={ContactContainer}/>
+        <Route path="/" component={App}>
+            <Route path="/inbox" component={InboxListContainer}/>
+            <Route path="/inbox/:emailId" component={InboxContainer}/>
+            <Route path="/spam" component={SpamListContainer}/>
+            <Route path="/spam/:emailId" component={SpamContainer}/>
         </Route>
     </Router>
 );
