@@ -1,21 +1,16 @@
 {
   "name": "email-react",
   "version": "1.0.0",
-  "description": "react email app",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "mkdir": "mkdir -p build",
-    "serve": "http-server build",
-    "build": "npm run clean && npm run mkdir && npm run build:html && npm run build:css && npm run build:jsx",
-    "watch": "npm run watch:html & npm run watch:css & npm run watch:jsx",
-    "clean": "rm -rf build",
-    "build:html": "npm run clean:html && cp index.html build/",
-    "watch:html": "npm run build:html && chokidar index.html -c 'npm run build:html'",
-    "clean:html": "rm -f build/index.html",
-    "build:jsx": "npm run clean:jsx && webpack",
-    "watch:jsx": "npm run build:jsx && webpack --watch",
-    "clean:jsx": "rm -f build/$npm_package_name.$npm_package_version.jsx build/$npm_package_name.$npm_package_version.jsx.map"
+  "description": "",
+  "main": "js/index.jsx",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "react": "^15.0.2",
+    "react-addons-update": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -31,13 +26,31 @@
     "uglify-js": "^2.6.2",
     "webpack": "^1.13.0"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mkdir": "mkdir -p build",
+    "serve": "http-server build",
+    "build": "npm run clean && npm run mkdir && npm run build:html && npm run build:css && npm run build:jsx",
+    "watch": "npm run watch:html & npm run watch:css & npm run watch:jsx",
+    "clean": "rm -rf build",
+    "build:html": "npm run clean:html && cp index.html build/",
+    "watch:html": "npm run build:html && chokidar index.html -c 'npm run build:html'",
+    "clean:html": "rm -f build/index.html",
+    "watch:css": "npm run build:css && chokidar 'styles/**/*.less' -c 'npm run build:css'",
+    "build:css": "npm run clean:css && lessc --source-map styles/index.less build/$npm_package_name.$npm_package_version.css",
+    "clean:css": "rm -f build/$npm_package_name.$npm_package_version.css build/$npm_package_name.$npm_package_version.css.map",
+    "build:jsx": "npm run clean:jsx && webpack",
+    "watch:jsx": "npm run build:jsx && webpack --watch",
+    "clean:jsx": "rm -f build/$npm_package_name.$npm_package_version.jsx build/$npm_package_name.$npm_package_version.jsx.map"
+  },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "git+https://github.com/kaeside/email-react.git"
   },
   "author": "kaeside & kyle",
   "license": "ISC",
-  "dependencies": {
-    "react-router": "^2.4.1"
-  }
+  "bugs": {
+    "url": "https://github.com/kaeside/email-react/issues"
+  },
+  "homepage": "https://github.com/kaeside/email-react#readme"
 }
